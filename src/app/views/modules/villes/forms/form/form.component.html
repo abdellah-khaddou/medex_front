@@ -1,0 +1,176 @@
+<style>
+
+</style>
+<sppiner *ngIf="isLoad"></sppiner>
+
+<div style="margin-top: 10px;" class="alert alert-success" *ngIf='ismessage'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='invalidtLogin'>{{'HAS_AN_ERROR'|translate}} </div>
+<div class="col">
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" >{{'RELATION_AVEC_VENDEUR'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" >{{'RELATION_AVEC_LIVREUR'|translate}}</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav> -->
+  <div class="card">
+    <div class="card-header"><strong>{{'VILLES'|translate}}</strong> <small>{{'FORM'|translate}}</small></div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="save()">
+        <div class="row">
+          <div class="col-sm-6">
+
+            <div class="form-group col-12">
+              <label for="ville_depart">{{'LIENU_DE_RAMASSAGE'|translate}}</label>
+              <select class="form-control" id="ville_depart"
+               [class.is-invalid]="(isValid('ville_depart') || errors?.ville_depart)"
+               [class.is-valid]="isInputValid('ville_depart')"
+               [(ngModel)]="villes.ville_depart"
+               formControlName="ville_depart" name="ville_depart"  class="form-control" id="ville_depart">
+
+                <option *ngFor="let r of networks" [selected]="villesNames?.ville_depart==r.name" [value]="r.name">{{r.name}}</option>
+
+              </select>
+              <div [class.invalid-feedback]="isValid('ville_depart') || errors?.ville_depart"  *ngIf="isValid('ville_depart') || errors?.ville_depart ">
+                <span *ngFor="let err of messageError('ville_depart')">{{err|translate}}</span>
+                <span *ngFor="let err of errors?.ville_depart">{{err|translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-group col-12">
+              <label for="ville_arrive">{{'VILLE'|translate}}</label>
+              <select class="form-control" id="ville_arrive"
+               [class.is-invalid]="(isValid('ville_arrive') || errors?.ville_arrive)"
+               [class.is-valid]="isInputValid('ville_arrive')"
+               [(ngModel)]="villes.ville_arrive"
+
+               formControlName="ville_arrive" name="ville_arrive"  class="form-control" id="ville_arrive">
+
+                <option *ngFor="let r of allvilles" [selected]="villes?.ville_arrive==r.name" [value]="r.name">{{r.name}}</option>
+
+              </select>
+              <div [class.invalid-feedback]="isValid('ville_arrive') || errors?.ville_arrive"  *ngIf="isValid('ville_arrive') || errors?.ville_arrive ">
+                <span *ngFor="let err of messageError('ville_arrive')">{{err|translate}}</span>
+                <span *ngFor="let err of errors?.ville_arrive">{{err|translate}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <!-- type -->
+              <div class="form-group col-sm-6">
+                <label for="type">{{'TYPE'|translate}}</label>
+                <select class="form-control" id="type" [class.is-invalid]="(isValid('type') || errors?.type)"
+                  [class.is-valid]="isInputValid('type')" [(ngModel)]="villes.type"
+                  (change)="typeChange($event.target.value)" formControlName="type" name="type" class="form-control"
+                  id="type">
+
+                   <option *ngFor="let r of valueType" [selected]="villes?.type?.name==r" [value]="r.name">{{r.name}}
+                  </option>
+
+                </select>
+                <div [class.invalid-feedback]="isValid('type') || errors?.type"
+                  *ngIf="isValid('type') || errors?.type ">
+                  <span *ngFor="let err of messageError('type')">{{err|translate}}</span>
+                  <span *ngFor="let err of errors?.type">{{err|translate}}</span>
+                </div>
+              </div>
+
+
+              <!-- type_value -->
+              <div class="form-group col-sm-6">
+                <label for="type_value">{{'TYPE_COLIS'|translate}} </label>
+                <select class="form-control" id="type_value"
+                  [class.is-invalid]="(isValid('type_value') || errors?.type_value)"
+                  [class.is-valid]="isInputValid('type_value')" [(ngModel)]="villes.type_value"
+                  formControlName="type_value" name="type_value" class="form-control" id="type_value">
+
+                  <option *ngFor="let r of valueTypeValues" [selected]="villes?.type?.value==r" [value]="r">{{r}}
+                  </option>
+
+                </select>
+                <div [class.invalid-feedback]="isValid('type_value') || errors?.type_value"
+                  *ngIf="isValid('type_value') || errors?.type_value ">
+                  <span *ngFor="let err of messageError('type_value')">{{err|translate}}</span>
+                  <span *ngFor="let err of errors?.type_value">{{err|translate}}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- companies -->
+            <label for="livreur">{{'LIVREUR'|translate}}</label>
+                <select class="form-control" id="livreur" [class.is-invalid]="(isValid('livreur') || errors?.livreur)"
+                  [class.is-valid]="isInputValid('livreur')" [(ngModel)]="villes.livreur"
+                  (change)="typeChange($event.target.value)" formControlName="livreur" name="livreur" class="form-control"
+                  >
+                  <option  [selected]="villes?.livreur =='vendeur'" value="vendeur">{{"VENDEUR"|translate}}</option>
+                  <option *ngFor="let livreur of companies" [selected]="villes?.livreur==livreur._id" [value]="livreur._id">{{livreur.name}}
+                  </option>
+
+                </select>
+                <div [class.invalid-feedback]="isValid('livreur') || errors?.livreur"
+                  *ngIf="isValid('livreur') || errors?.livreur ">
+                  <span *ngFor="let err of messageError('livreur')">{{err|translate}}</span>
+                  <span *ngFor="let err of errors?.livreur">{{err|translate}}</span>
+                </div>
+
+
+
+      </div>
+
+
+      <div class="col-sm-6">
+
+
+        <div class="form-group">
+          <label for="prix_livrision">{{'PRIX_DE_LIVRISON'|translate}}</label>
+          <input [class.is-invalid]="(isValid('prix_livrision') || errors?.prix_livrision)"
+           [class.is-valid]="isInputValid('prix_livrision')" [(ngModel)]="villes.prix_livrision"  formControlName="prix_livrision" name="prix_livrision"  class="form-control" id="prix_livrision"
+          type="text" placeholder="Enter prix_livrision villes" required >
+          <div [class.invalid-feedback]="isValid('prix_livrision') || errors?.prix_livrision"  *ngIf="isValid('prix_livrision') || errors?.prix_livrision ">
+            <span *ngFor="let err of messageError('prix_livrision')">{{err|translate}}</span>
+            <span *ngFor="let err of errors?.prix_livrision">{{err|translate}}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prix_annule">{{'PRIX_DE_ANNULE'|translate}}</label>
+          <input [class.is-invalid]="(isValid('prix_annule') || errors?.prix_annule)"
+           [class.is-valid]="isInputValid('prix_annule')" [(ngModel)]="villes.prix_annule"  formControlName="prix_annule" name="prix_annule"  class="form-control" id="prix_annule"
+          type="text" placeholder="Enter prix_annule villes" required >
+          <div [class.invalid-feedback]="isValid('prix_annule') || errors?.prix_annule"  *ngIf="isValid('prix_annule') || errors?.prix_annule ">
+            <span *ngFor="let err of messageError('prix_annule')">{{err|translate}}</span>
+            <span *ngFor="let err of errors?.prix_annule">{{err|translate}}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prix_refuse">{{'PRIX_DE_REFUSE'|translate}}</label>
+          <input [class.is-invalid]="(isValid('prix_refuse') || errors?.prix_refuse)"
+           [class.is-valid]="isInputValid('prix_refuse')" [(ngModel)]="villes.prix_refuse"  formControlName="prix_refuse" name="prix_refuse"  class="form-control" id="prix_refuse"
+          type="text" placeholder="Enter prix_refuse villes" required >
+          <div [class.invalid-feedback]="isValid('prix_refuse') || errors?.prix_refuse"  *ngIf="isValid('prix_refuse') || errors?.prix_refuse ">
+            <span *ngFor="let err of messageError('prix_refuse')">{{err|translate}}</span>
+            <span *ngFor="let err of errors?.prix_refuse">{{err|translate}}</span>
+          </div>
+        </div>
+
+
+      </div>
+        <button  type="submit" [disabled]="form.errors != null" class="btn btn-block btn-success mt-5">{{'SAVE_VILLES'|translate}} </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-modal [setting]="modalSetting"></app-modal>

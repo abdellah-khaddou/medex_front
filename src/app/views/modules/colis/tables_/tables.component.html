@@ -1,0 +1,105 @@
+
+ <div style="margin-top: 30px;"></div>
+ <ng-container *ngIf="user?.company.type == 'LIVREUR'">
+    <button type="btn btn-info" (click)="changeTypesColis('RETOUR')"> {{'ROTEUR'|translate}}</button>
+    <button type="btn btn-info" (click)="changeTypesColis('ACCEPTE')"> {{'ACCEPTE'|translate}}</button>
+ </ng-container>
+ <ng-container *ngIf="user?.company.type == 'ADMIN'">
+  <button type="btn btn-info" (click)="changeTypesColis('RETOUR_EN_NETWORK')"> {{'RETOUR_EN_NETWORK'|translate}}</button>
+  <button type="btn btn-info" (click)="changeTypesColis('ACCEPTE_EN_NETWORK')"> {{'ACCEPTE_EN_NETWORK'|translate}}</button>
+  <button type="btn btn-info" (click)="changeTypesColis('RETEURNER')"> {{'RETEURNER'|translate}}</button>
+</ng-container>
+
+<p-table #dt [autoLayout]="true"
+  [columns]="settings.columns" [value]="colis"
+  [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+  sortMode="multiple"
+  selectionMode="multiple" [(selection)]="selectedColis" dataKey="traking"
+  [resizableColumns]="true" styleClass="p-datatable-gridlines"
+>
+<ng-template pTemplate="caption">
+  <div class="ui-helper-clearfix" style="text-align: left">
+    <button *ngIf="user?.company.type == 'VENDEUR'" type="button" pButton icon="pi pi-file-o" iconPos="left" label="Envoye" (click)="envoye()" style="margin-right: 0.5em;"></button>
+    <button *ngIf="colisBarCode?.length >0"         type="button" pButton icon="pi pi" iconPos="left" label="ACCEPTE" (click)="accepte()" style="margin-right: 0.5em;"></button>
+      <input *ngIf="user?.company.type != 'VENDEUR'" autofocus type="text" class="form-input" placeholder="BarCode" (keyup.enter)="enSubmitBarCode($event.target)" >
+  </div>
+</ng-template>
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+          <th *ngFor="let col of settings.columns" [pSortableColumn]="col.field" pResizableColumn>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                {{col.title|translate}}
+                <ng-container *ngIf="col.typeData !='enum'">
+                  <p-columnFilter type="{{col.typeData}}" field="{{col.field}}" display="menu"></p-columnFilter>
+
+                </ng-container>
+                <ng-container *ngIf="col.typeData=='enum'">
+                      <p-columnFilter field="{{col.field}}" matchMode="in" display="menu" [showMatchModes]="false"
+                      [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="header">
+                            <div class="p-px-3 p-pt-3 p-pb-0">
+                                <span class="p-text-bold">{{'VENDEUR_FILTRING'|translate}}</span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-multiSelect   [ngModel]="value" [options]="filters[col.field]" placeholder="Any"  (onChange)="filter($event.value)" optionLabel="{{col.field}}">
+                                <ng-template let-option pTemplate="item">
+                                    <div class="p-multiselect-representative-option">
+                                        <img [alt]="option[col.field]" src="../../../../../assets/img/avatars/1.jpg" width="32" style="vertical-align: middle" />
+                                        <span class="p-ml-1">{{option}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                        </ng-template>
+                      </p-columnFilter>
+                </ng-container>
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+
+            </div>
+
+          </th>
+          <!-- <th pResizableColumn>{{'CODEBARE'|translate}}</th> -->
+          <th pResizableColumn>{{'CONTROLE'|translate}}</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-coli let-columns="settings.columns" let-rowIndex="rowIndex">
+      <tr (click)="selectValue(coli?.traking)"  [style]="coli.class" [pSelectableRow]="coli" [pSelectableRowIndex]="rowIndex" >
+        <td>
+          <p-tableCheckbox [value]="coli" (change)="selectValue($event)"></p-tableCheckbox>
+        </td>
+        <ng-container *ngFor="let column of settings.columns">
+
+          <td  *ngIf="!column.type"> {{ coli[column.field]|translate}} </td>
+          <ng-container *ngIf="column.type">
+                <td  *ngIf="column.type=='image'"><img width="50px"  height="50px" [src]=" coli[column.field][0].url ||coli[column.field] "/> </td>
+                <td  *ngIf="column.type=='button'"><button class="{{coli[column.name]?.class}}" >{{coli[column.field].value || coli[column.field] |translate}}</button> </td>
+                <td  *ngIf="column.type=='span'"><span class="{{coli[column.name]?.class}}" >{{coli[column.field].value || coli[column.field]|translate }}</span> </td>
+                <td  *ngIf="column.type=='input'"><input /> </td>
+                <td  *ngIf="column.type=='array'"><span style="margin: 0 2px;" class="btn btn-info" *ngFor="let el of coli[column.field]">{{el|translate}}</span></td>
+
+          </ng-container>
+
+      </ng-container>
+      <!-- <td>
+        <ngx-barcode [bc-element-type]="'img'" [bc-height]="30"
+          [bc-display-value]="false" [id]="coli['traking']" [bc-value]="coli['traking']" [bc-display-value]="false">
+        </ngx-barcode>
+      </td> -->
+       <td>
+            <a class="btn btn-danger"  ><i class="fa fa-trash"></i></a>
+            <a class="btn btn-warning" (click)="edit(coli)" ><i class="fa fa-edit"></i></a>
+            <a class="btn btn-info" (click)="show(coli)"  ><i class="fa fa-eye"></i></a>
+        </td>
+      </tr>
+  </ng-template>
+</p-table>
+
+
+
+<app-modal [setting]="modalSetting"></app-modal>
+<colis-details [@openClose] = "showDitailes ? 'open' : 'closed'" (close)="closeDetails($event)" *ngIf="showDitailes" [coliID]="colisIdShow"></colis-details>
+
+

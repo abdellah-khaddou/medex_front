@@ -1,0 +1,27 @@
+
+<ng-template *ngIf="config.type=='text'">
+    <button
+        type="button"
+        [ngStyle]="config.styles"
+        (click)="onBtnTextClick()"
+        [class]="config.calss"
+    >
+    <ng-container *ngIf="config.icon.exsist == true">
+            <i [class]="config.icon.class">
+
+            </i>
+    </ng-container>
+    <ng-container *ngIf="config.icon.exsist != true">
+        {{config.text}}
+    </ng-container>
+    
+    </button>
+</ng-template>
+
+<ng-template *ngIf="config.type=='image'">
+    <img [src]="config.src" [alt]="config.alt"
+        [ngStyle]="config.styles"
+        (click)="onBtnImgClick()"
+        [class]="config.calss"
+    >
+</ng-template>

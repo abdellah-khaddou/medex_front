@@ -1,0 +1,57 @@
+<style>
+
+</style>
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+
+<div style="margin-top: 10px;" class="alert alert-success" *ngIf='ismessage'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+<div class="col-md-5 mx-auto">
+  <div class="card">
+    <div class="card-header"><strong>Ville Name</strong> <small>Form</small></div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="save()">
+        <div class="row">
+
+        <div class="form-group  col-12">
+          <label for="company">Name</label>
+          <input  [class.is-invalid]="(isValid('name') || errors?.name)"
+           [class.is-valid]="isInputValid('name')"
+          formControlName="name" [(ngModel)]="villesNames.name" name="name"  class="form-control" id="name"
+          type="text" placeholder="Enter name " required  >
+          <div [class.invalid-feedback]="isValid('name') || errors?.name"  *ngIf="isValid('name') || errors?.name ">
+            <span *ngFor="let err of messageError('name')">{{ err }}</span>
+            <span *ngFor="let err of errors?.name">{{ err }}</span>
+          </div>
+
+        </div>
+
+
+       <div class="form-group col-12">
+          <label for="hub">HUB</label>
+          <select class="form-control" id="hub"
+           [class.is-invalid]="(isValid('hub') || errors?.hub)"
+           [class.is-valid]="isInputValid('hub')"
+           [(ngModel)]="villesNames.hub"
+           formControlName="hub" name="hub"  class="form-control" id="hub">
+
+            <option *ngFor="let r of hubs" [selected]="villesNames?.hub==r.name" [value]="r.name">{{r.name}}</option>
+
+          </select>
+          <div [class.invalid-feedback]="isValid('hub') || errors?.hub"  *ngIf="isValid('hub') || errors?.hub ">
+            <span *ngFor="let err of messageError('hub')">{{ err }}</span>
+            <span *ngFor="let err of errors?.hub">{{ err }}</span>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+        <button type="submit" [disabled]="form.errors != null" class="btn btn-block btn-success">Save </button>
+
+
+      </form>
+    </div>
+  </div>
+</div>

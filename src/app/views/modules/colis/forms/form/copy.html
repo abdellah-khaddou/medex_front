@@ -1,0 +1,10 @@
+<div class="form-group">
+  <label for="email">Email</label>
+  <input [class.is-invalid]="(isValid('email') || errors?.email)"
+   [class.is-valid]="isInputValid('email')" [(ngModel)]="module.email"  formControlName="email" name="email"  class="form-control" id="email"
+  type="text" placeholder="Enter email module" required >
+  <div [class.invalid-feedback]="isValid('email') || errors?.email"  *ngIf="isValid('email') || errors?.email ">
+    <span *ngFor="let err of messageError('email')">{{ err }}</span>
+    <span *ngFor="let err of errors?.email">{{ err }}</span>
+  </div>
+</div>

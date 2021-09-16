@@ -1,0 +1,49 @@
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+<div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+<div style="margin-top: 10px;"  class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form [formGroup]="form" (submit)="create()">
+                <h1>status Vendeur</h1>
+                <p class="text-muted">Save status Vendeur</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                  </div>
+                  <input
+                  [class.is-invalid]="(isValid('name') || errors?.name)"
+                 [class.is-valid]="isInputValid('name')"
+                  [(ngModel)]="statusVedeur.name" formControlName="name" name="name"  type="text" class="form-control"
+                  placeholder="Name" autocomplete="username" required>
+                </div>
+                <span style="color: red;" *ngIf="isValid('name') || errors?.name ">
+                  <span *ngFor="let err of messageError('name')">{{ err }}</span>
+                  <span *ngFor="let err of errors?.name">{{ err }}</span>
+                </span>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                  </div>
+                  <input
+                  [class.is-invalid]="(isValid('color') || errors?.name)"
+                 [class.is-valid]="isInputValid('color')"
+                  [(ngModel)]="statusVedeur.color" formControlName="color" name="color"  type="color" class="form-control"
+                  placeholder="color" autocomplete="color" required>
+                </div>
+
+                <button companie="submit"  class="btn btn-block btn-success">Save statusVedeur</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

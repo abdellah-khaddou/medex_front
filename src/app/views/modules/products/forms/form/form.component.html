@@ -1,0 +1,118 @@
+
+<div style="margin-top: 10px;" class="alert alert-success" *ngIf='ismessage'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='invalidRequest'>has an errors </div>
+<div class="col">
+  <div class="card">
+    <div class="card-header"><strong>Products</strong> <small>Form</small></div>
+    <div class="card-body">
+      <form (submit)="save()">
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- start form -->
+            <div class="form-group">
+              <label for="company">Name</label>
+              <!--[class.is-invalid]="(isValid('name') || errors?.name)" [class.is-valid]="isInputValid('name')"
+              -->
+              <input 
+                [(ngModel)]="product.name" name="name" class="form-control" id="name" type="text"
+                placeholder="Enter name Companie" required>
+              <!-- <div [class.invalid-feedback]="isValid('name') || errors?.name" *ngIf="isValid('name') || errors?.name ">
+                <span *ngFor="let err of messageError('name')">{{ err }}</span>
+                <span *ngFor="let err of errors?.name">{{ err }}</span>
+              </div> -->
+
+            </div>
+            <!-- end form -->
+             <!-- start form -->
+             <div class="form-group">
+              <label for="name_fr">Name Francais</label>
+              <input 
+                [(ngModel)]="product.name_fr" name="name_fr" class="form-control" id="name_fr" type="text"
+                placeholder="Enter name Francais" required>
+                
+              <!-- <div [class.invalid-feedback]="isValid('name_fr') || errors?.name_fr" *ngIf="isValid('name_fr') || errors?.name_fr ">
+                <span *ngFor="let err of messageError('name_fr')">{{ err }}</span>
+                <span *ngFor="let err of errors?.name_fr">{{ err }}</span>
+              </div> -->
+
+            </div>
+            <!-- end form -->
+            <!-- start form -->
+            <div class="form-group">
+              <label for="name_en">Name Englais</label>
+              <input 
+                [(ngModel)]="product.name_en" name="name_en" class="form-control" id="name_en" type="text"
+                placeholder="Enter name Englais" required>
+              <!-- <div [class.invalid-feedback]="isValid('name_en') || errors?.name_en" *ngIf="isValid('name_en') || errors?.name_en ">
+                <span *ngFor="let err of messageError('name_en')">{{ err }}</span>
+                <span *ngFor="let err of errors?.name_en">{{ err }}</span>
+              </div> -->
+
+            </div>
+            <!-- end form -->
+            <!-- start form -->
+            <div class="form-group">
+              <label for="category">category</label>
+              <select class="form-control" id="category" 
+                 [(ngModel)]="product.category" name="category" class="form-control"
+                id="category">
+
+                <option *ngFor="let cat of categories" [selected]="product?.category==cat._id" [value]="cat._id">{{cat.name}}</option>
+
+              </select>
+              <!-- <div [class.invalid-feedback]="isValid(this) || errors?.category" *ngIf="isValid(this) || errors?.category ">
+                <span *ngFor="let err of messageError('category')">{{ err }}</span>
+                <span *ngFor="let err of errors?.category">{{ err }}</span>
+              </div> -->
+            </div>
+            <!-- end form -->
+            <!-- start form -->
+            <div class="form-group">
+              <label for="PA">Price Achat</label>
+              <input
+                name="PA" [(ngModel)]="product.PA" class="form-control" id="PA" type="text"
+                placeholder="Enter PA Companie" required>
+              <!-- <div [class.invalid-feedback]="isValid('PA') || errors?.PA" *ngIf="isValid('PA') || errors?.PA ">
+                <span *ngFor="let err of messageError('PA')">{{ err }}</span>
+                <span *ngFor="let err of errors?.PA">{{ err }}</span>
+              </div> -->
+            </div>
+            <!-- end form -->
+          </div>
+          <div class="col-sm-6">
+            <!-- start form -->
+            <div class="form-group">
+              <label for="price">Price Vende</label>
+              <input 
+                name="price" [(ngModel)]="product.price" class="form-control" id="price" type="text"
+                placeholder="Enter price Companie" required>
+              <!-- <div [class.invalid-feedback]="isValid('price') || errors?.price" *ngIf="isValid('price') || errors?.price ">
+                <span *ngFor="let err of messageError('price')">{{ err }}</span>
+                <span *ngFor="let err of errors?.price">{{ err }}</span>
+              </div> -->
+            </div>
+            <!-- end form -->
+            <!-- start form -->
+            <div class="form-group">
+              <label for="CompanyID">CompanyID</label>
+              <select class="form-control" id="CompanyID" 
+                 [(ngModel)]="product.CompanyID" name="CompanyID" class="form-control"
+                id="category">
+
+                <option *ngFor="let comp of companies" [selected]="product?.CompanyID==comp._id" [value]="comp._id">{{comp.name}}</option>
+
+              </select>
+              <!-- <div [class.invalid-feedback]="isValid(this) || errors?.CompanyID" *ngIf="isValid(this) || errors?.CompanyID ">
+                <span *ngFor="let err of messageError('CompanyID')">{{ err }}</span>
+                <span *ngFor="let err of errors?.CompanyID">{{ err }}</span>
+              </div> -->
+            </div>
+            <!-- end form -->
+           
+          </div>
+          <button type="submit"  class="btn btn-block btn-success">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

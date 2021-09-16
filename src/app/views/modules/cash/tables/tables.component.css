@@ -1,0 +1,324 @@
+
+/****************** Header section **************************/
+
+.menu{
+  margin-bottom: -15px;
+padding: 0;
+}
+
+nav {
+  width: 100%;
+  margin: 0 auto;
+  background: transparent;
+}
+
+nav ul {
+  list-style: none;
+  text-align: start;
+  padding: 0;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+
+}
+nav ul li {
+  display: inline-block;
+  width: 49.99%;
+
+
+}
+nav ul li a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color:  white;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0 10px;
+  width: 100%;
+  text-align: center;
+
+}
+
+nav ul li  button{
+  width: 99%;
+      color: #1c9ef7;
+      background: #f0f3fc;
+      padding: 8px 15px;
+   font-weight: 600 !important;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  border: 1px solid #1c9ef7;
+}
+
+nav ul li a,
+nav ul li button:after,
+nav ul li button:before {
+  transition: all .5s;
+}
+
+nav ul li button:hover {
+  /* color: #555; */
+background: #e5eaf7!important ;
+font-weight: 600;
+
+}
+
+nav ul li button:focus {
+  color: white;
+border-bottom: none;
+background: #009ef7!important;
+
+font-weight: 600;
+}
+/*=================================================*/
+.my-row{
+  margin-right: -1rem;
+  margin-left: -1rem;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.country-box{
+  align-items: center!important;
+  display: flex;
+  padding-right: 1rem;
+  margin: 5px 0;
+
+}
+.country-box span{
+padding-right: 10px;
+font-size: 14px;
+}
+.select{
+  padding: 5px 12px;
+  color: #333333;
+  background-color: #eeeeee;
+  border: 1px solid #dddddd;
+  cursor: pointer;
+  min-width: 220px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background:  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down open-indicator vs__open-indicator" role="presentation"><polyline points="6 9 12 15 18 9"></polyline></svg>') ;
+  background-position: right 5px top 50%;
+  background-repeat: no-repeat;
+  background-size: 15px;
+  padding-right: 30px;
+  border-radius: .27rem!important;
+
+
+}
+.select:focus,
+.select:hover {
+  outline: none;
+  border: 1px solid #bbbbbb;
+}
+
+.select option{
+  letter-spacing: 1.2px;
+  padding: .5rem 0;
+  top: 20px;
+  margin: 0 0 0;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(34,41,47,.05);
+}
+.select::-ms-expand{
+  display: none;
+}
+[type="date"] {
+  background: url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+  border: 1px solid #dddddd;
+    border-radius: .27rem!important;
+    cursor: pointer;
+    padding: 5px 12px;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+.main-content{
+  margin: 1.5rem!important;
+  margin-bottom: 0 !important;
+}
+input {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 3px 5px;
+  min-width: 220px;
+   outline: inherit;
+}
+.date-box{
+  display: flex;
+  padding-right: 1rem;
+  align-items: center;
+  margin: 5px 0;
+
+}
+.date-box label{
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  color: black;
+  min-width: 70px;
+  display: block;
+  font-size: 14px;
+  margin: 0;
+}
+.date-box input:focus,
+.date-box input:hover {
+  outline: none;
+  border: 1px solid #bbbbbb;
+}
+@media  screen and (max-width: 360px) {
+
+input {
+min-width: auto;
+}
+.select{
+min-width: 150px;
+}
+
+}
+
+@media  screen and (max-width: 480px) {
+
+  .main-content {
+  margin:0 !important;
+  }
+  nav ul {
+  display: block;
+  padding: 0;
+
+  }
+  nav ul li button {
+  width: 100%;
+  margin-bottom: 3px;
+  }
+  nav ul li {
+  width: 100%;
+  }
+  .menu{
+  padding: 0;
+  }
+}
+.divs{
+  background: white;
+  margin: 20px 0;
+          }
+      .card-body{
+          padding: 0;
+        }
+        .card-body button{
+        padding: 8px 15px;
+        border-radius: .27rem!important;
+      color: white;
+      background-color: #009ef7!important;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 500;
+
+      }
+      .card-body button:hover {
+        outline: none;
+        background: #44baff!important ;
+      }
+        .our-table{
+        display: table;
+        width: 100%;
+        text-align: center;
+      }
+      .our-table .our-row{
+        display: flex;
+        padding: 0.6rem!important;
+        border-radius: .27rem!important;
+        align-items: center!important;
+        background-color: #f1faff!important;
+        border-collapse: separate;
+        border-spacing: 5px 8px;
+        justify-content: space-between;
+        margin: 10px 0;
+      }
+      .our-table .our-row .our-cell{
+        display: table-cell;
+        text-align: justify;
+        margin: 0;
+
+      }
+      .our-table .our-row .our-cell:nth-child(1) span{
+        color: #a1a5b7!important;
+        display: block!important;
+        font-weight: 300;
+        font-size: 14px;
+        margin-top: -2px;
+      }
+      .our-table .our-row .our-cell:nth-child(1) a{
+        color: #3f4254!important;
+        font-weight: 500!important;
+        font-size: 14px;
+        text-decoration: none;
+
+
+      }
+      .our-table .our-row .our-cell:nth-child(2) a{
+        color: #3f4254;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+
+      }
+      .our-table .our-row .our-cell:nth-child(2) span{
+        color: #3f4254;
+        font-weight: 500;
+        font-size: 14px;
+
+      }
+      .our-table .our-row .our-cell i{
+          font-size: 17px;
+             padding: 0 8px;
+             color: #009ef7!important;
+             font-weight: 600!important;
+      }
+      .our-table .our-row:hover,
+      .our-table .our-row:focus {
+        background:  #e7f7ff !important;
+        font-weight: 600 !important ;
+
+
+      }
+     .our-table .our-row:hover .our-cell:nth-child(1) a{
+        font-weight: 600 !important;
+      }
+      .our-table .our-row:hover .our-cell:nth-child(1) span{
+        font-weight: 500 !important;
+      }
+      .prix-fact {
+        color: #009ef7!important;
+        font-weight: 600!important;
+        font-size: 14px !important;
+      }
+      .hide button{
+        padding: 8px 15px;
+          border-radius: .27rem!important;
+          color: white;
+          background-color: #009ef7!important;
+          border: none;
+          cursor: pointer;
+          outline: inherit;
+          margin-top: 10px;
+          font-weight: 500;
+      }
+      .hide button:hover{
+        outline: none;
+        background: #44baff!important ;
+      }
+      .fix-height{
+        height: 400px !important;
+        overflow: auto;
+      }

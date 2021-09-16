@@ -1,0 +1,147 @@
+
+<style>
+    /* This css is for normalizing styles. You can skip this. */
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+.check input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.check label {
+  position: relative;
+  cursor: pointer;
+}
+
+.check label:before {
+  content:'';
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid #0079bf;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.check input:checked + label:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 6px;
+  height: 14px;
+  border: solid #0079bf;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+</style>
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+<div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+<div style="margin-top: 10px;"  class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form [formGroup]="form" (submit)="create()">
+                <h1>Role</h1>
+                <p class="text-muted">Save</p>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                  </div>
+                  <input
+                  style="padding: 10px;height: 40px;"
+                  [class.is-invalid]="(isValid('name') || errors?.name)"
+                 [class.is-valid]="isInputValid('name')"
+                  [(ngModel)]="role.name" formControlName="name" name="name"  type="text" class="form-control"
+                  placeholder="Name" autocomplete="name" required>
+                </div>
+                <span style="color: red;" *ngIf="isValid('name') || errors?.name ">
+                  <span *ngFor="let err of messageError('name')">{{ err }}</span>
+                  <span *ngFor="let err of errors?.name">{{ err }}</span>
+                 </span>
+
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                  </div>
+                  <input
+                  style="padding: 10px;height: 40px;"
+                  [class.is-invalid]="(isValid('displayName') || errors?.displayName)"
+                 [class.is-valid]="isInputValid('displayName')"
+                  [(ngModel)]="role.displayName" formControlName="displayName" name="displayName"  type="text" class="form-control"
+                  placeholder="display Name" autocomplete="displayName" required>
+                </div>
+                <span style="color: red;" *ngIf="isValid('displayName') || errors?.displayName ">
+                  <span *ngFor="let err of messageError('displayName')">{{ err }}</span>
+                  <span *ngFor="let err of errors?.displayName">{{ err }}</span>
+                </span>
+                <div style="height: 200px; overflow: scroll;" class="input-group mb-3">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">NAME</th>
+                        <th scope="col">READ</th>
+                        <th scope="col">CREATE</th>
+                        <th scope="col">UPDATE</th>
+                        <th scope="col">DELETE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let perm of resources?.resources">
+                        <th scope="row">{{perm}}</th>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('read-'+perm)" id="{{perm}}A1" value="read-{{perm}}"   (change)="onCheckChange($event)"><label for="{{perm}}A1"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('create-'+perm)" id="{{perm}}A2" value="create-{{perm}}" (change)="onCheckChange($event)" ><label for="{{perm}}A2"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('update-'+perm)" id="{{perm}}A3" value="update-{{perm}}" (change)="onCheckChange($event)"><label for="{{perm}}A3"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('delete-'+perm)" id="{{perm}}A4" value="delete-{{perm}}" (change)="onCheckChange($event)"><label for="{{perm}}A4"></label></td>
+                      </tr>
+                      <tr *ngIf="permissionEnum?.length>0">
+                        <th scope="row">{{"AUTRE_PERMISSION"|translate}}</th>
+                        <th scope="row">{{"CAN"|translate}}</th>
+                      </tr>
+                      <tr *ngFor="let customPer of permissionEnum">
+                        <th scope="row">{{customPer.title}}</th>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked(customPer.value)" id="{{customPer.value}}A1" value="{{customPer.value}}"   (change)="onCheckChange($event)"><label for="{{customPer.value}}A1"></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                </table>
+
+                </div>
+
+                <button style="height: 40px;" type="submit"  class="btn btn-block btn-success">Save</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

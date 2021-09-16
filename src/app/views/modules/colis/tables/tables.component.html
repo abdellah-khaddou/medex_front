@@ -1,0 +1,194 @@
+
+ <style>
+   .nav-item{
+     margin: 2px;
+   }
+ </style>
+ <div style="margin-top: 30px;"></div>
+<p-table *ngIf="user" #dt [autoLayout]="true"
+  [columns]="settings.columns" [value]="colis"
+  [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+  sortMode="multiple"
+  selectionMode="multiple" [(selection)]="selectedColis" dataKey="traking"
+  [resizableColumns]="true" styleClass="p-datatable-gridlines"
+>
+<ng-template pTemplate="caption">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <span  class="navbar-brand" > <label for="txtFileUpload">Import</label> </span>
+    <input
+      style="display: none;"
+      type="file"
+      #fileImportInput
+      name="File Upload"
+      id="txtFileUpload"
+      class="btn btn-primary"
+      (change)="fileChangeListener($event)"
+      accept=".csv"
+      />
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active" >
+            <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+        </li>
+        <li class="nav-item">
+          <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+        </li>
+        <li class="nav-item">
+          <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+        </li>
+        <li class="nav-item">
+          <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="Invoice" (click)="goToGenerate()" class="ui-button-warning"></button>
+        </li>
+        <li class="nav-item" *ifPer="'envoye-colis'">
+          <button  type="button" pButton icon="pi pi-send" iconPos="left" label="Envoye" (click)="envoyesToBL()" class="ui-button-warning"></button>
+        </li>
+        <li class="nav-item" *ngIf="user.company?.type=='LIVREUR'" >
+          <button  type="button" pButton icon="pi pi-send" iconPos="left" label="Change Status" (click)="showBox()" class="ui-button-warning"></button>
+        </li>
+        <li class="nav-item" >
+          <button  type="button" pButton icon="pi pi-file-pdf"  iconPos="left" label="Expidition" (click)="expidition()" class="ui-button-warning"></button>
+        </li>
+        <li class="nav-item">
+          <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" ></button>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <!-- <div class="ui-helper-clearfix" style="text-align: left">
+  </div> -->
+</ng-template>
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+          <th *ngFor="let col of settings.columns" [pSortableColumn]="col.field" pResizableColumn>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                {{col.title|translate}}
+                <ng-container *ngIf="col.typeData !='enum'">
+                  <p-columnFilter type="{{col.typeData}}" field="{{col.field}}" display="menu"></p-columnFilter>
+
+                </ng-container>
+                <ng-container *ngIf="col.typeData=='enum'">
+                      <p-columnFilter field="{{col.field}}" matchMode="in" display="menu" [showMatchModes]="false"
+                      [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="header">
+                            <div class="p-px-3 p-pt-3 p-pb-0">
+                                <span class="p-text-bold">{{'VENDEUR_FILTRING'|translate}}</span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-multiSelect   [ngModel]="value" [options]="filters[col.field]" placeholder="Any"  (onChange)="filter($event.value)" optionLabel="{{col.field}}">
+                                <ng-template let-option pTemplate="item">
+                                    <div class="p-multiselect-representative-option">
+                                        <img [alt]="option[col.field]" src="../../../../../assets/img/avatars/1.jpg" width="32" style="vertical-align: middle" />
+                                        <span class="p-ml-1">{{option}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                        </ng-template>
+                      </p-columnFilter>
+                </ng-container>
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+
+            </div>
+
+          </th>
+          <!-- <th pResizableColumn>{{'CODEBARE'|translate}}</th> -->
+          <th pResizableColumn>{{'CONTROLE'|translate}}</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-coli let-columns="settings.columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="coli" [pSelectableRowIndex]="rowIndex" >
+        <td>
+          <p-tableCheckbox [value]="coli"></p-tableCheckbox>
+        </td>
+        <ng-container *ngFor="let column of settings.columns">
+          <td  *ngIf="!column.type"> {{ coli[column.field]|translate}} </td>
+          <ng-container *ngIf="column.type">
+                <td  *ngIf="column.type=='image'"><img width="50px"  height="50px" [src]=" coli[column.field][0].url ||coli[column.field] "/> </td>
+                <td  *ngIf="column.type=='button'"><button class="{{coli[column.name]?.class}}" >{{coli[column.field].value || coli[column.field] |translate }}</button> </td>
+                <td  *ngIf="column.type=='span'"><span class="{{coli[column.name]?.class}}" >{{coli[column.field].value || coli[column.field] |translate}}</span> </td>
+                <td  *ngIf="column.type=='input'"><input /> </td>
+                <td  *ngIf="column.type=='array'"><span style="margin: 0 2px;" class="btn btn-info" *ngFor="let el of coli[column.field]">{{el|translate}}</span></td>
+
+          </ng-container>
+
+      </ng-container>
+       <td style="display: none;">
+        <ngx-barcode [bc-element-type]="'img'" [bc-height]="30"
+          [bc-display-value]="false" [id]="coli['traking']" [bc-value]="coli['traking']" [bc-display-value]="false">
+        </ngx-barcode>
+      </td>
+       <td>
+            <a class="btn btn-danger"   ><i class="fa fa-trash"></i></a>
+            <a class="btn btn-warning" (click)="edit(coli)" ><i class="fa fa-edit"></i></a>
+            <a class="btn btn-info"  (click)="show(coli)" ><i class="fa fa-eye"></i></a>
+        </td>
+      </tr>
+  </ng-template>
+</p-table>
+
+
+
+
+
+<div style="display: block;" *ngIf="listStatusLivreur.length >0 && showLivreurList"  class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header btn-info">
+        <h5 class="modal-title">{{'SELECT_STATUS'|translate}}</h5>
+        <button (click)="showLivreurList =false" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <select style="width: 90%; margin: 20px auto;" (change)="changeStatus()" [(ngModel)]="livreurStatus.name" class="form-select" aria-label="Default select example">
+            <option *ngFor="let status of listStatusLivreur" [value]="status?.name"> {{status?.name}}</option>
+          </select>
+        </div>
+        <ng-container *ngIf="statusSelect?.type=='date'">
+          <div>
+             <input type="datetime-local"  class="form-input" style="width: 90%;margin: 20px auto;" [(ngModel)]="livreurStatus.date">
+
+          </div>
+          <div>
+            <input style="width: 90%;margin:20px auto;"  placeholder="{{statusSelect.placeholder}}" type="text" class="from-input"  [(ngModel)]="livreurStatus.description">
+          </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="statusSelect?.type=='user'">
+          <div>
+            <select style="width: 90%; margin: 20px auto;"  [(ngModel)]="livreurStatus.user" class="form-select" aria-label="Default select example">
+              <option *ngFor="let user of users" [value]="user._id"> {{user.name}}</option>
+            </select>
+         </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="statusSelect?.type=='text'">
+          <div>
+            <input placeholder="{{statusSelect.placeholder}}" type="text" class="from-input"  style="width: 90%;margin: 20px auto" [(ngModel)]="livreurStatus.description">
+          </div>
+        </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="changeStatusByLivreur()"> <i class="fa fa-send" ></i>Envoye</button>
+        <button class="btn btn-danger" (click)="showLivreurList =false"> <i class="fa fa-close"></i> Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal [setting]="modalSetting"></app-modal>
+
+<colis-details [@openClose] = "showDitailes ? 'open' : 'closed'" (close)="closeDetails($event)" *ngIf="showDitailes" [coliID]="colisIdShow"></colis-details>
+
+
+

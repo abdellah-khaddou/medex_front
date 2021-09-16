@@ -1,0 +1,4 @@
+export enum NameEnums{
+  RESOURCES="RESOURCES",
+  TYPE_COMPANY ="TYPE_COMPANIE"
+}

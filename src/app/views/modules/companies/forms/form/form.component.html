@@ -1,0 +1,147 @@
+<style>
+
+</style>
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+
+<div style="margin-top: 10px;" class="alert alert-success" *ngIf='ismessage'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+<div class="col">
+  <div class="card">
+    <div class="card-header"><strong>Companie</strong> <small>Form</small></div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="save()">
+        <div class="row">
+          <div class="col-sm-6">
+        <div class="form-group">
+          <label for="company">Name</label>
+          <input  [class.is-invalid]="(isValid('name') || errors?.name)"
+           [class.is-valid]="isInputValid('name')"
+          formControlName="name" [(ngModel)]="companie.name" name="name"  class="form-control" id="name"
+          type="text" placeholder="Enter name Companie" required  >
+          <div [class.invalid-feedback]="isValid('name') || errors?.name"  *ngIf="isValid('name') || errors?.name ">
+            <span *ngFor="let err of messageError('name')">{{ err }}</span>
+            <span *ngFor="let err of errors?.name">{{ err }}</span>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="ville">Ville</label>
+          <input [class.is-invalid]="(isValid('ville') || errors?.ville)"
+           [class.is-valid]="isInputValid('ville')"
+           formControlName="ville" name="ville" [(ngModel)]="companie.ville"  class="form-control" id="ville"
+          type="text" placeholder="Enter ville Companie" required >
+          <div [class.invalid-feedback]="isValid('ville') || errors?.ville"  *ngIf="isValid('ville') || errors?.ville ">
+            <span *ngFor="let err of messageError('ville')">{{ err }}</span>
+            <span *ngFor="let err of errors?.ville">{{ err }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse</label>
+          <input [class.is-invalid]="(isValid('adresse') || errors?.adresse)"
+           [class.is-valid]="isInputValid('adresse')"
+           formControlName="adresse" name="adresse" [(ngModel)]="companie.adresse"  class="form-control" id="adresse"
+          type="text" placeholder="Enter adresse Companie" required >
+          <div [class.invalid-feedback]="isValid('adresse') || errors?.adresse"  *ngIf="isValid('adresse') || errors?.adresse ">
+            <span *ngFor="let err of messageError('adresse')">{{ err }}</span>
+            <span *ngFor="let err of errors?.adresse">{{ err }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tel">Tel</label>
+          <input [class.is-invalid]="(isValid('tel') || errors?.tel)"
+           [class.is-valid]="isInputValid('tel')"
+           formControlName="tel" name="tel" [(ngModel)]="companie.tel"  class="form-control" id="tel"
+          type="text" placeholder="Enter tel Companie" required >
+          <div [class.invalid-feedback]="isValid('tel') || errors?.tel"  *ngIf="isValid('tel') || errors?.tel ">
+            <span *ngFor="let err of messageError('tel')">{{ err }}</span>
+            <span *ngFor="let err of errors?.tel">{{ err }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input [class.is-invalid]="(isValid('email') || errors?.email)"
+           [class.is-valid]="isInputValid('email')" [(ngModel)]="companie.email"  formControlName="email" name="email"  class="form-control" id="email"
+          type="text" placeholder="Enter email companie" required >
+          <div [class.invalid-feedback]="isValid('email') || errors?.email"  *ngIf="isValid('email') || errors?.email ">
+            <span *ngFor="let err of messageError('email')">{{ err }}</span>
+            <span *ngFor="let err of errors?.email">{{ err }}</span>
+          </div>
+        </div>
+
+
+
+          </div>
+
+
+      <div class="col-sm-6">
+
+
+        <div class="form-group">
+          <label for="RC">RC</label>
+          <input [class.is-invalid]="(isValid('RC') || errors?.RC)"
+           [class.is-valid]="isInputValid('RC')"
+           formControlName="RC" name="RC" [(ngModel)]="companie.RC"  class="form-control" id="RC"
+          type="text" placeholder="Enter RC Companie" required >
+          <div [class.invalid-feedback]="isValid('RC') || errors?.RC"  *ngIf="isValid('RC') || errors?.RC ">
+            <span *ngFor="let err of messageError('RC')">{{ err }}</span>
+            <span *ngFor="let err of errors?.RC">{{ err }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="banque">Banque</label>
+          <input [class.is-invalid]="(isValid('banque') || errors?.banque)"
+           [class.is-valid]="isInputValid('banque')"
+           formControlName="banque" name="banque" [(ngModel)]="companie.banque"  class="form-control" id="banque"
+          type="text" placeholder="Enter banque Companie" required >
+          <div [class.invalid-feedback]="isValid('banque') || errors?.banque"  *ngIf="isValid('banque') || errors?.banque ">
+            <span *ngFor="let err of messageError('banque')">{{ err }}</span>
+            <span *ngFor="let err of errors?.banque">{{ err }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="RIB">RIB</label>
+          <input [class.is-invalid]="(isValid('RIB') || errors?.RIB)"
+           [class.is-valid]="isInputValid('RIB')"
+           formControlName="RIB" name="RIB" [(ngModel)]="companie.RIB"  class="form-control" id="RIB"
+          type="text" placeholder="Enter RIB Companie" required >
+          <div [class.invalid-feedback]="isValid('RIB') || errors?.RIB"  *ngIf="isValid('RIB') || errors?.RIB ">
+            <span *ngFor="let err of messageError('RIB')">{{ err }}</span>
+            <span *ngFor="let err of errors?.RIB">{{ err }}</span>
+          </div>
+        </div>
+
+       <div class="form-group">
+          <label for="type">Type</label>
+          <select class="form-control" id="type"
+          [class.is-invalid]="(isValid('type') || errors?.type)"
+           [class.is-valid]="isInputValid('type')"
+           [(ngModel)]="companie.type"
+          formControlName="type" name="type"  class="form-control" id="type"
+          >
+
+            <option *ngFor="let r of valueType" [selected]="companie?.type==r.value" [value]="r.value">{{r.value}}</option>
+
+          </select>
+          <div [class.invalid-feedback]="isValid('type') || errors?.type"  *ngIf="isValid('type') || errors?.type ">
+            <span *ngFor="let err of messageError('type')">{{ err }}</span>
+            <span *ngFor="let err of errors?.type">{{ err }}</span>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+        <button type="submit" [disabled]="form.errors != null" class="btn btn-block btn-success">Save Companie</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
