@@ -1,0 +1,14 @@
+.spinner-div{
+    background: #4a484830;
+    width: 116%;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
+}
+
+.spinner-div div{
+    position: absolute;
+    top: 50%;
+    right: 54%;
+    background: blue;
+}

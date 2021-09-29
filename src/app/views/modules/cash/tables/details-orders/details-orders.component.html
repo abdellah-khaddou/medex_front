@@ -1,0 +1,43 @@
+<div class="table-details col-lg-12 " >
+  <div class="bts-tb">
+    <h4>Cash details of 05-03-2021 for Store-1</h4>
+    <button (click)="closeForm()" id="btn-close"><span
+        style=" padding: 5px; font-size: 18px;">&#x2715;</span></button>
+  </div>
+
+  <p-table [value]="orders" sortMode="multiple">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="colis.traking">{{"TRAKING"|translate}}<p-sortIcon field="colis.traking"></p-sortIcon></th>
+            <th pSortableColumn="colis.nb_order">{{"ORDER"|translate}}<p-sortIcon field="colis.nb_order"></p-sortIcon></th>
+            <th pSortableColumn="colis.ville_arrive">{{"VILLE_ARRIVE"|translate}}<p-sortIcon field="colis.ville_arrive"></p-sortIcon></th>
+            <th pSortableColumn="prix_annule">{{"PRIX"|translate}}<p-sortIcon field="prix_annule"></p-sortIcon></th>
+            <th pSortableColumn="prix_annule">{{"PRIX_ANNULE"|translate}}<p-sortIcon field="prix_annule"></p-sortIcon></th>
+            <th pSortableColumn="prix_refuse">{{"PRIX_REFUSE"|translate}}<p-sortIcon field="prix_refuse"></p-sortIcon></th>
+            <th pSortableColumn="prix_livrison">{{"PRIX_LIVRISON"|translate}}<p-sortIcon field="prix_livrison"></p-sortIcon></th>
+            <th pSortableColumn="total">{{"AMOUNT"|translate}}<p-sortIcon field="total"></p-sortIcon></th>
+            <th pSortableColumn="colis.statusDate">{{"DATE_OPERATION"|translate}}<p-sortIcon field="colis.statusDate"></p-sortIcon></th>
+            <th pSortableColumn="colis.satatusPaye">{{"STATUS"|translate}}<p-sortIcon field="colis.satatusPaye"></p-sortIcon></th>
+            <th pSortableColumn="colis.status">{{"STATUS_CASH"|translate}}<p-sortIcon field="colis.status"></p-sortIcon></th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+        <tr>
+            <td>{{order.colis.traking       || "-"}}</td>
+            <td>{{order.colis.nb_order      || "-"}}</td>
+            <td>{{order.colis.ville_arrive  || "-"}}</td>
+            <td>{{order.prix                || "-"}}</td>
+            <td>{{order.prix_annule         || "-"}}</td>
+            <td>{{order.prix_refuse         || "-"}}</td>
+            <td>{{order.prix_livrison       || "-"}}</td>
+            <td>{{order.total               || "-"}}</td>
+            <td>{{order.colis.statusDate    || "-"}}</td>
+            <td>{{order.satatusPaye         || "-"}}</td>
+            <td>{{order.status              || "-"}}</td>
+
+        </tr>
+    </ng-template>
+</p-table>
+
+</div>

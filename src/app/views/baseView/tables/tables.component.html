@@ -1,0 +1,42 @@
+
+<ng-container>
+  <div class="table-responsive" >
+
+          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                  <tr>
+                      <th *ngFor="let header of settings.columns">{{ header.title }}</th>
+                      <th >Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let release of thisData">
+                      <ng-container *ngFor="let column of settings.columns">
+                          <td *ngIf="!column.type"> {{ release[column.field]}} </td>
+                          <ng-container *ngIf="column.type">
+                                <td *ngIf="column.type=='image'"><img width="50px"  height="50px" [src]=" release[column.field][0].url ||release[column.field] "/> </td>
+                                <td *ngIf="column.type=='button'"><button class="btn btn-info" (click)="buttonHandler(release)">{{release[column.field]}}</button> </td>
+                                <td *ngIf="column.type=='input'"><input [(ngModel)]="release[column.field]" (blur)="buttonHandler(release)"/> </td>
+                                <td *ngIf="column.type=='array'"><span style="margin: 0 2px;" class="btn btn-info" *ngFor="let el of release[column.field]">{{el}}</span></td>
+
+                          </ng-container>
+
+                      </ng-container>
+                       <td>
+                            <a class="btn btn-danger"  (click)="delete(release)"><i class="fa fa-trash"></i></a>
+                            <a class="btn btn-warning" (click)="edit(release)" ><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-info"    (click)="show(release)"><i class="fa fa-eye"></i></a>
+                          </td>
+                  </tr>
+              </tbody>
+              <!-- <tfoot>
+                <tr>
+                  <th *ngFor="let column of settings.columns;let i=index"> <input (change)="changeHappen()"  type="text" id="{{i}}" [placeholder]="column.title" name="{{column.field}}"/> </th>
+
+                </tr>
+
+              </tfoot> -->
+          </table>
+
+  </div>
+</ng-container>

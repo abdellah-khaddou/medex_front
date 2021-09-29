@@ -1,0 +1,121 @@
+ <div style="margin-top: 30px;"></div>
+<p-table #dt [autoLayout]="true"
+
+  [columns]="settings.columns" [value]="bons"
+  [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+  sortMode="multiple"
+  selectionMode="multiple" [(selection)]="selectedBons"
+  [resizableColumns]="true" styleClass="p-datatable-gridlines"
+>
+<ng-template pTemplate="caption">
+  <div class="ui-helper-clearfix" style="text-align: left">
+      <button  type="button" pButton icon="pi pi-inbox" iconPos="left" label="ALL" (click)="filterBon('all')" style="margin-right: 0.5em;"></button>
+      <button *ngIf="user?.company.type == 'ADMIN'" type="button" pButton icon="pi pi-wallet" iconPos="left" label="B-EXPEDITION" (click)="filterBon('BE')" style="margin-right: 0.5em;"></button>
+      <button *ngIf="user?.company.type == 'ADMIN' || user?.company.type == 'VENDEUR'" type="button" pButton icon="pi pi-wallet" iconPos="left" label="B-RETOURE" (click)="filterBon('BRE')" style="margin-right: 0.5em;"></button>
+      <button *ngIf="user?.company.type == 'ADMIN' || user?.company.type == 'VENDEUR'" type="button" pButton icon="pi pi-envelope" iconPos="left" label="B-LIVRISON" (click)="filterBon('BL')" style="margin-right: 0.5em;" class="ui-button-success"></button>
+  </div>
+</ng-template>
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+          <th *ngFor="let col of settings.columns" [pSortableColumn]="col.field" pResizableColumn>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                {{col.title|translate}}
+                <ng-container *ngIf="col.typeData !='enum'">
+                  <p-columnFilter type="{{col.typeData}}" field="{{col.field}}" display="menu"></p-columnFilter>
+
+                </ng-container>
+                <ng-container *ngIf="col.typeData=='enum'">
+                      <p-columnFilter field="{{col.field}}" matchMode="in" display="menu" [showMatchModes]="false"
+                      [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="header">
+                            <div class="p-px-3 p-pt-3 p-pb-0">
+                                <span class="p-text-bold">{{'FILTRING'|translate}}</span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-multiSelect   [ngModel]="value" [options]="filters[col.field]" placeholder="Any"  (onChange)="filter($event.value)" optionLabel="{{col.field}}">
+                                <ng-template let-option pTemplate="item">
+                                    <div class="p-multiselect-representative-option">
+                                        <img [alt]="option[col.field]" src="../../../../../assets/img/avatars/1.jpg" width="32" style="vertical-align: middle" />
+                                        <span class="p-ml-1">{{option}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                        </ng-template>
+                      </p-columnFilter>
+                </ng-container>
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+
+            </div>
+
+          </th>
+          <!-- <th pResizableColumn>{{'CODEBARE'|translate}}</th> -->
+          <th pResizableColumn>{{'CONTROLE'|translate}}</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-bon let-columns="settings.columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="bon" [pSelectableRowIndex]="rowIndex" >
+        <ng-container *ngFor="let column of settings.columns">
+          <td  *ngIf="!column.type"> {{ bon[column.field] }} </td>
+          <ng-container *ngIf="column.type">
+                <td  *ngIf="column.type=='image'"><img width="50px"  height="50px" [src]=" bon[column.field][0].url ||bon[column.field] "/> </td>
+                <td  *ngIf="column.type=='button'"><button class="{{bon[column.name]?.class}}" >{{bon[column.field].value || bon[column.field] }}</button> </td>
+                <td  *ngIf="column.type=='status'"><button class="{{bon[column.field] == 'ENVOYE' ? 'btn btn-success' : 'btn btn-danger' }}" >{{bon[column.field].value || bon[column.field] }}</button> </td>
+                <td  *ngIf="column.type=='span'"><span class="{{bon[column.name]?.class}}" >{{bon[column.field].value || bon[column.field] }}</span> </td>
+                <td  *ngIf="column.type=='input'"><input /> </td>
+                <td  *ngIf="column.type=='array'"><span style="margin: 0 2px;" class="btn btn-info" *ngFor="let el of bon[column.field]">{{el}}</span></td>
+
+          </ng-container>
+
+      </ng-container>
+
+       <td style="display: none;" >
+        <ng-container *ngFor="let coli of bon.colis">
+          <ngx-barcode [bc-element-type]="'img'" [bc-height]="30"
+          [bc-display-value]="false" [id]="coli['traking']" [bc-value]="coli['traking']" [bc-display-value]="false">
+          </ngx-barcode>
+        </ng-container>
+
+      </td>
+       <td>
+        <button type="button" pButton icon="pi pi-send" iconPos="left" label="Envoye"      (click)="send(bon)"  *ngIf="this.type=='BE' && bon.status =='NON_ENVOYE'" class="ui-button-warning"></button>
+        <button type="button" pButton icon="pi pi-send" iconPos="left" label="Envoye"      (click)="reteur(bon)"  *ngIf="this.type=='BRE' && bon.status =='NON_ENVOYE'" class="ui-button-warning"></button>
+           <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="Bon"  (click)="exportPdf(bon)" class="ui-button-warning"></button>
+           <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="Tikit" (click)="exportTickit(bon)" class="ui-button-warning"></button>
+
+        </td>
+      </tr>
+  </ng-template>
+
+
+</p-table>
+<!--  -->
+<div *ngIf="showLivreurList" style="display: block;" aria-disable class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header btn-info">
+        <h5 class="modal-title">{{"SELECT_LIVREUR"|translate}}</h5>
+        <button (click)="showLivreurList =false" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <select style="width: 90%; margin: 20px auto;" [(ngModel)]="livreur" class="form-select"
+            aria-label="Default select example">
+            <option *ngFor="let livr of livreurs" [value]="livr._id"> {{livr.name}}</option>
+          </select>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" (click)="delevry(selectedBon)"> <i class="fa fa-send"></i>Envoye</button>
+          <button class="btn btn-danger" (click)="showLivreurList =false"> <i class="fa fa-close"></i> Cancel</button>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+
+<app-modal [setting]="modalSetting"></app-modal>
+

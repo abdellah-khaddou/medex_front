@@ -1,0 +1,48 @@
+ <!-- begin Cash -->
+
+ <div *ngIf="!isPaid" class="hide "  id="being-cash">
+  <div class="card-body ">
+   <button> Export Orders Details </button>
+   <div class="our-table" id="my-table">
+
+     <div class="our-row " *ngFor="let cash of cashs" (click)="sendCash(cash)">
+       <div class="our-cell">
+         <a>{{cash.date |date :'short'}}</a>
+         <span>{{cash.nb_orders}} order(s)</span>
+       </div>
+       <div class="our-cell">
+         <span class="prix-fact">{{cash.total }}</span>
+         <i class="fa fa-angle-right"></i>
+       </div>
+     </div>
+
+   </div>
+
+ </div>
+</div>
+
+
+
+<div *ngIf="isPaid" class="col-lg-8 col-md-12 " style="padding: 0;" class="hide" id="paid">
+<div class="main-content " style="margin: 0 !important;">
+  <button onclick="myFunction();"> Export Orders Details </button>
+  <div class="our-table" id="fac">
+
+    <div class="our-row" id="row" *ngFor="let cash of cashs" (click)="sendCash(cash)">
+      <div class="our-cell">
+        <a >{{"Invoice N"|translate}} {{cash.number}}</a>
+        <span>paid at {{cash.datePayement}}</span>
+      </div>
+      <div class="our-cell">
+        <span>{{cash.nb_orders}} order(s)</span>
+      </div>
+      <div class="our-cell">
+        <span class="prix-fact">{{cash.total}} DH</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>

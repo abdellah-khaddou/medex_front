@@ -1,0 +1,13 @@
+
+<div class="alert alert-danger" *ngIf="errors$ |async as error">{{error}}</div>
+ <!-- <ng-container *ngIf="users$">
+    <data-table [data]="users$|async" [settings]="settings" [loading]="true" (event)="actionEvent($event)">
+    </data-table>
+  </ng-container>   -->
+
+  <ng-container *ngIf="users$">
+    <data-table [data]="users$" [settings]="settings" [loading]="true" (event)="actionEvent($event)">
+    </data-table>
+  </ng-container>
+  
+  

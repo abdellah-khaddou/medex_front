@@ -1,0 +1,83 @@
+<style>
+ 
+</style>
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+
+<div style="margin-top: 10px;" class="alert alert-success" *ngIf='ismessage'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+<div class="col">
+  <div class="card">
+    <div class="card-header"><strong>Companie</strong> <small>Form</small></div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="save()">
+        <div class="row">
+          <div class="col-sm-6">
+        <div class="form-group">
+          <label for="company">Name</label>
+          <input  [class.is-invalid]="(isValid('name') || errors?.name)" 
+           [class.is-valid]="isInputValid('name')" 
+          formControlName="name" [(ngModel)]="module.name" name="name"  class="form-control" id="name" 
+          type="text" placeholder="Enter name Companie" required  >
+          <div [class.invalid-feedback]="isValid('name') || errors?.name"  *ngIf="isValid('name') || errors?.name ">
+            <span *ngFor="let err of messageError('name')">{{ err }}</span>
+            <span *ngFor="let err of errors?.name">{{ err }}</span>
+          </div>
+          
+        </div>
+        <div class="form-group">
+          <label for="company">Tel</label>
+          <input [class.is-invalid]="(isValid('tel') || errors?.tel)" 
+           [class.is-valid]="isInputValid('tel')"
+           formControlName="tel" name="tel" [(ngModel)]="module.tel"  class="form-control" id="tel" 
+          type="text" placeholder="Enter tel Companie" required >
+          <div [class.invalid-feedback]="isValid('tel') || errors?.tel"  *ngIf="isValid('tel') || errors?.tel ">
+            <span *ngFor="let err of messageError('tel')">{{ err }}</span>
+            <span *ngFor="let err of errors?.tel">{{ err }}</span>
+          </div>
+        </div>
+        
+      
+
+      </div>
+
+
+      <div class="col-sm-6">
+
+       <div class="form-group">
+          <label for="type">Type</label>
+          <select class="form-control" id="type"
+          [class.is-invalid]="(isValid('type') || errors?.type)" 
+           [class.is-valid]="isInputValid('type')" 
+           [(ngModel)]="module.type"
+          formControlName="type" name="type"  class="form-control" id="type"
+          >
+
+            <option *ngFor="let r of valueType" [selected]="module?.type==r" [value]="r">{{r}}</option>
+            
+          </select>
+          <div [class.invalid-feedback]="isValid('type') || errors?.type"  *ngIf="isValid('type') || errors?.type ">
+            <span *ngFor="let err of messageError('type')">{{ err }}</span>
+            <span *ngFor="let err of errors?.type">{{ err }}</span>
+          </div>
+        </div>      
+          
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input [class.is-invalid]="(isValid('email') || errors?.email)" 
+           [class.is-valid]="isInputValid('email')" [(ngModel)]="module.email"  formControlName="email" name="email"  class="form-control" id="email" 
+          type="text" placeholder="Enter email module" required >
+          <div [class.invalid-feedback]="isValid('email') || errors?.email"  *ngIf="isValid('email') || errors?.email ">
+            <span *ngFor="let err of messageError('email')">{{ err }}</span>
+            <span *ngFor="let err of errors?.email">{{ err }}</span>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+        <button type="submit" [disabled]="form.errors != null" class="btn btn-block btn-success">Save Companie</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<header>
+  <div class="menu col-lg-12 col-md-12 col-sm-12">
+    <nav class="stroke">
+      <ul>
+        <li><button (click)="isPaid = false" type="button" [class.active]="!isPaid" class="btn-sm">Cash being Paid</button></li>
+        <li>
+          <!-- <i class="fa fa-gear"></i> -->
+          <button (click)="isPaid = true"  type="button" [class.active]="isPaid" class="btn-sm">Cash Paid</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col-lg-12 col-md-6 col-sm-6 main-content">
+    <div class="my-row">
+      <div class="country-box">
+        <span>Country </span>
+        <select class="select">
+          <option value="Algeria">Algeria</option>
+          <option value="Brazil">Brazil</option>
+          <option value="United States	">United States </option>
+          <option value="Mexico">Mexico</option>
+          <option value="Egypt">Egypt</option>
+          <option value="Saudi Arabia	">Saudi Arabia </option>
+        </select>
+      </div>
+      <div class="date-box">
+        <label for="datemin">Min Date</label>
+        <input type="date" name="datemin" id="datemin">
+      </div>
+      <div class="date-box">
+        <label for="datemax">Max Date</label>
+        <input type="date" name="datemax" id="datemax">
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="divs ">
+  <div class=" ">
+    <div  class="row" id="main-container">
+      <div [class]="" [class]="classBegin +' '+ fixHeight">
+          <begin-or-paid [isPaid]="isPaid" [cashs]="cashs" (cash)="sendCash($event)" ></begin-or-paid>
+      </div>
+      <div  [class]="classStore +' '+ fixHeight">
+         <details-store *ngIf="payedVendeur" [stores]="storeV" (orders)="changeOrders($event)" (close)="closeFormStore($event)"></details-store>
+      </div>
+    </div>
+    <!-- table detail begin cash  -->
+      <details-orders *ngIf="payedLivreur || showOrders" [orders]="orders" (close)="closeFormDetails($event)"></details-orders>
+    <!-- fin table begin cash -->
+  </div>
+
+
+
+</div>

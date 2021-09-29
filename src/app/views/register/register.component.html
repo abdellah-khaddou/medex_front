@@ -1,0 +1,260 @@
+<sppiner *ngIf="isLoad"></sppiner>
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form [formGroup]="form" (submit)="register()">
+                <h1>Register</h1>
+                <p class="text-muted">Create your account</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                          <!-- namCompanie -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class=" fa fa-users"></i></span>
+                            </div>
+                            <input formControlName="name_companie" name="name_companie"  type="text" class="form-control"
+                            [class.is-invalid]="(isValid('name_companie') || errors?.name_companie)"
+                            [class.is-valid]="isInputValid('name_companie')"
+                            placeholder="Companie Name" autocomplete="name_companie" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('name_companie') || errors?.name_companie ">
+                              <span *ngFor="let err of messageError('name_companie')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.name_companie">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- tel companie -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="icon-phone"></i></span>
+                            </div>
+                            <input formControlName="tel_companie" name="tel_companie"  type="tel_companie" class="form-control"
+                            [class.is-invalid]="(isValid('tel_companie') || errors?.tel_companie)"
+                            [class.is-valid]="isInputValid('tel_companie')"
+                            placeholder="telephone" autocomplete="phone" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('tel_companie') || errors?.tel_companie">
+                              <span *ngFor="let err of messageError('tel_companie')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.tel_companie">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- email companie -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">@</span>
+                            </div>
+                            <input formControlName="email_companie" name="email_companie"  type="email_companie" class="form-control"
+                            [class.is-invalid]="(isValid('email_companie') || errors?.email_companie)"
+                            [class.is-valid]="isInputValid('email_companie')"
+                            placeholder="Email Companie" autocomplete="phone" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('email_companie') || errors?.email_companie">
+                              <span *ngFor="let err of messageError('email_companie')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.email_companie">{{ err }}</span>
+                            </div>
+                          </div>
+
+                          <!-- ville -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa  fa-globe"></i></span>
+                            </div>
+                            <input  formControlName="ville" name="ville"  type="ville" class="form-control"
+                            [class.is-invalid]="(isValid('ville') || errors?.ville)"
+                            [class.is-valid]="isInputValid('ville')"
+                            list="ville_lists"
+                            placeholder="Ville" autocomplete="ville" required>
+
+                            <datalist id="ville_lists">
+                              <option *ngFor="let ville of villes" [value]="ville">
+                          </datalist>
+
+                            <div style="color: red; width:100%;" *ngIf="isValid('ville') || errors?.ville">
+                                <span *ngFor="let err of messageError('ville')">{{ err }}</span>
+                                <span *ngFor="let err of errors?.ville">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- adresse -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                            <input formControlName="adresse" name="adresse"  type="adresse" class="form-control"
+                            [class.is-invalid]="(isValid('adresse') || errors?.adresse)"
+                            [class.is-valid]="isInputValid('adresse')"
+                            placeholder="Adresse" autocomplete="adresse" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('adresse') || errors?.adresse">
+                                <span *ngFor="let err of messageError('adresse')">{{ err }}</span>
+                                <span *ngFor="let err of errors?.adresse">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- RC -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-registered"></i></span>
+                            </div>
+                            <input formControlName="RC" name="RC"  type="RC" class="form-control"
+                            [class.is-invalid]="(isValid('RC') || errors?.RC)"
+                            [class.is-valid]="isInputValid('RC')"
+                            placeholder="Register Commerce" autocomplete="RC" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('RC') || errors?.RC">
+                                <span *ngFor="let err of messageError('RC')">{{ err }}</span>
+                                <span *ngFor="let err of errors?.RC">{{ err }}</span>
+                            </div>
+
+                          </div>
+                          <!-- banque -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-university"></i></span>
+                            </div>
+                            <input formControlName="banque" name="banque"  type="banque" class="form-control"
+                            [class.is-invalid]="(isValid('banque') || errors?.banque)"
+                            [class.is-valid]="isInputValid('banque')"
+                            placeholder="Banque" autocomplete="banque" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('banque') || errors?.banque">
+                                <span *ngFor="let err of messageError('banque')">{{ err }}</span>
+                                <span *ngFor="let err of errors?.banque">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- RIB -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-cc-mastercard"></i></span>
+                            </div>
+                            <input formControlName="RIB" name="RIB"  type="RIB" class="form-control"
+                            [class.is-invalid]="(isValid('RIB') || errors?.RIB)"
+                            [class.is-valid]="isInputValid('RIB')"
+                            placeholder="RIB" autocomplete="RIB" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('RIB') || errors?.RIB">
+                                <span *ngFor="let err of messageError('RIB')">{{ err }}</span>
+                                <span *ngFor="let err of errors?.RIB">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- type companie -->
+                          <div class="form-group">
+                            <label for="type">Type</label>
+                            <select class="form-control" id="type"
+                            [class.is-invalid]="(isValid('type') || errors?.type)"
+                            [class.is-valid]="isInputValid('type')"
+                            formControlName="type" name="type"  class="form-control" id="type"
+                            >
+
+                              <option *ngFor="let r of valueType"  [value]="r.value">{{r.value}}</option>
+
+                            </select>
+                            <div [class.invalid-feedback]="isValid('type') || errors?.type"  *ngIf="isValid('type') || errors?.type ">
+                              <span *ngFor="let err of messageError('type')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.type">{{ err }}</span>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-sm-6">
+                           <!-- namUser -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class=" fa fa-user"></i></span>
+                            </div>
+                            <input formControlName="name_user" name="name_user"  type="text" class="form-control"
+                            [class.is-invalid]="(isValid('name_user') || errors?.name_user)"
+                            [class.is-valid]="isInputValid('name_user')"
+                            placeholder="User Name" autocomplete="name_user" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('name_user') || errors?.name_user ">
+                              <span *ngFor="let err of messageError('name_user')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.name_user">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- login -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                            </div>
+                            <input formControlName="login" name="login"  type="text" class="form-control"
+                            [class.is-invalid]="(isValid('login') || errors?.login)"
+                            [class.is-valid]="isInputValid('login')"
+                            placeholder="Login" autocomplete="username" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('login') || errors?.login">
+                              <span *ngFor="let err of messageError('login')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.login">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- cin -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="icon-user"></i></span>
+                            </div>
+                            <input formControlName="cin" name="cin"  type="text" class="form-control"
+                            [class.is-invalid]="(isValid('cin') || errors?.cin)"
+                            [class.is-valid]="isInputValid('cin')"
+                            placeholder="cin" autocomplete="cin" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('cin') || errors?.cin">
+                              <span *ngFor="let err of messageError('cin')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.cin ">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- email -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">@</span>
+                            </div>
+                            <input formControlName="email" name="email"  type="text" class="form-control"
+                            [class.is-invalid]="(isValid('email') || errors?.email)"
+                            [class.is-valid]="isInputValid('email')"
+                            placeholder="Email" autocomplete="email" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('email') || errors?.email">
+                              <span *ngFor="let err of messageError('email')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.email">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- password -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="icon-lock"></i></span>
+                            </div>
+                            <input formControlName="password" name="password" type="password"
+                            [class.is-invalid]="(isValid('password') || errors?.password)"
+                            [class.is-valid]="isInputValid('password')"
+                            class="form-control" placeholder="Password" autocomplete="new-password" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('password') || errors?.password">
+                              <span *ngFor="let err of messageError('password')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.password">{{ err }}</span>
+                            </div>
+                          </div>
+                          <!-- tel User -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-mobile"></i></span>
+                            </div>
+                            <input formControlName="tel_user" name="tel_user"  type="tel_user" class="form-control"
+                            [class.is-invalid]="(isValid('tel_user') || errors?.tel_user)"
+                            [class.is-valid]="isInputValid('tel_user')"
+                            placeholder="Tel User" autocomplete="tel_user" required>
+                            <div style="color: red; width:100%;" *ngIf="isValid('tel_user') || errors?.tel_user">
+                              <span *ngFor="let err of messageError('tel_user')">{{ err }}</span>
+                              <span *ngFor="let err of errors?.tel_user">{{ err }}</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+
+
+
+                <button type="submit" [disabled]="!form.valid" class="btn btn-block btn-success">Create Account</button>
+              </form>
+            </div>
+            <div class="card-footer p-4">
+              <div class="row">
+                <div class="col">
+                  <a class="btn btn-block btn-facebook" type="button" routerLink="/login"><span>Login</span></a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

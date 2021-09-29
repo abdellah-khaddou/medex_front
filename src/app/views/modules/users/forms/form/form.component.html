@@ -1,0 +1,240 @@
+<style>
+  /* This css is for normalizing styles. You can skip this. */
+*, *:before, *:after {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+
+
+
+
+.check input {
+padding: 0;
+height: initial;
+width: initial;
+margin-bottom: 0;
+display: none;
+cursor: pointer;
+}
+
+.check label {
+position: relative;
+cursor: pointer;
+}
+
+.check label:before {
+content:'';
+-webkit-appearance: none;
+background-color: transparent;
+border: 2px solid #0079bf;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+padding: 10px;
+display: inline-block;
+position: relative;
+vertical-align: middle;
+cursor: pointer;
+margin-right: 5px;
+}
+
+.check input:checked + label:after {
+content: '';
+display: block;
+position: absolute;
+top: 2px;
+left: 9px;
+width: 6px;
+height: 14px;
+border: solid #0079bf;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+input{
+  padding-left:5px ;
+  padding-right:5px ;
+}
+</style>
+<!-- <sppiner *ngIf="isLoad"></sppiner> -->
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div style="margin-top: 10px;"  class="alert alert-success" *ngIf='message'>{{message}}</div>
+        <div class="col-md-8 mx-auto">
+          <div class="alert alert-danger" *ngIf='invalidtLogin'>has an errors </div>
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form [formGroup]="form" (submit)="create()">
+                <h1>User</h1>
+                <p class="text-muted">Save Account</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text"><i class="fa fa-user-circle"></i></span>
+                  </div>
+                  <input style="padding: 10px;height: 40px;"
+                  [class.is-invalid]="(isValid('name') || errors?.name)"
+                 [class.is-valid]="isInputValid('name')"
+                  [(ngModel)]="user.name" formControlName="name" name="name"  type="text" class="form-control"
+                  placeholder="Name" autocomplete="name" required>
+                </div>
+                <span style="color: red;" *ngIf="isValid('name') || errors?.name ">
+                  <span *ngFor="let err of messageError('name')">{{ err }}</span>
+                  <span *ngFor="let err of errors?.name">{{ err }}</span>
+                </span>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text"><i class="fa fa-users"></i></span>
+                  </div>
+                  <input style="padding: 10px;height: 40px;"
+                  [class.is-invalid]="(isValid('login') || errors?.login)"
+                 [class.is-valid]="isInputValid('login')"
+                  [(ngModel)]="user.login" formControlName="login" name="login"  type="text" class="form-control"
+                   placeholder="Login" autocomplete="login" required>
+                </div>
+                <span style="color: red;" *ngIf="isValid('login') || errors?.login">
+                  <span *ngFor="let err of messageError('login')">{{ err }}</span>
+                  <span *ngFor="let err of errors?.login">{{ err }}</span>
+                </span>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text"><i class="fa fa-user"></i></span>
+                  </div>
+                  <input formControlName="cin" name="cin"  type="text" class="form-control"
+                  [class.is-invalid]="(isValid('cin') || errors?.cin)"
+                  [(ngModel)]="user.cin"
+                  [class.is-valid]="isInputValid('cin')"
+                  placeholder="CIN" autocomplete="cin" required>
+                  <div style="color: red; width:100%;" *ngIf="isValid('cin') || errors?.cin">
+                    <span *ngFor="let err of messageError('cin')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.cin">{{ err }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 13px;" class="input-group-text"><i class="fa fa-mobile"></i></span>
+                  </div>
+                  <input formControlName="tel" name="tel"  type="tel" class="form-control"
+                  [class.is-invalid]="(isValid('tel') || errors?.tel)"
+                  [(ngModel)]="user.tel"
+                  [class.is-valid]="isInputValid('tel')"
+                  placeholder="Phone" autocomplete="tel" required>
+                  <div style="color: red; width:100%;" *ngIf="isValid('tel') || errors?.tel">
+                    <span *ngFor="let err of messageError('tel')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.tel">{{ err }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span style="padding: 10px;" class="input-group-text">@</span>
+                  </div>
+                  <input formControlName="email" name="email"  type="email" class="form-control"
+                  [class.is-invalid]="(isValid('email') || errors?.email)"
+                  [(ngModel)]="user.email"
+                  [class.is-valid]="isInputValid('email')"
+                  placeholder="Email" autocomplete="email" required>
+                  <div style="color: red; width:100%;" *ngIf="isValid('email') || errors?.email">
+                    <span *ngFor="let err of messageError('email')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.email">{{ err }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3" *ngIf="!user._id">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input style="padding: 10px;height: 40px;"
+                  [class.is-invalid]="(isValid('password') || errors?.password)"
+                   [class.is-valid]="isInputValid('password')"
+                   [(ngModel)]="user.password" formControlName="password" name="password" type="password" class="form-control" placeholder="Password" autocomplete="new-password" required>
+                  <span style="color: red;" *ngIf="isValid('password') || errors?.password">
+                    <span *ngFor="let err of messageError('password')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.password">{{ err }}</span>
+                  </span>
+                 </div>
+
+
+                 <div class="form-group">
+                  <label for="companie">Companie</label>
+                  <select class="form-control" id="companie" [(ngModel)]="user.company"
+                  [class.is-invalid]="(isValid('company') || errors?.company)"
+                   [class.is-valid]="isInputValid('company')"
+                  formControlName="company" name="company"  class="form-control" id="company"
+                  >
+
+                    <option *ngFor="let c of companies" [selected]="c._id==user?.company?._id" [value]="c._id">{{c.name}}</option>
+
+                  </select>
+                  <div [class.invalid-feedback]="isValid('company') || errors?.company"  *ngIf="isValid('company') || errors?.company ">
+                    <span *ngFor="let err of messageError('company')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.company">{{ err }}</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="role">Role</label>
+                  <select class="form-control" id="role" [(ngModel)]="user.role"
+                  [class.is-invalid]="(isValid('role') || errors?.role)"
+                   [class.is-valid]="isInputValid('role')"
+                  formControlName="role" name="role"  class="form-control" id="role"
+                  >
+
+                    <option *ngFor="let c of roles" [selected]="c.name==user?.role" [value]="c.name">{{c.name}}</option>
+
+                  </select>
+                  <div [class.invalid-feedback]="isValid('role') || errors?.role"  *ngIf="isValid('role') || errors?.role ">
+                    <span *ngFor="let err of messageError('role')">{{ err }}</span>
+                    <span *ngFor="let err of errors?.role">{{ err }}</span>
+                  </div>
+                </div>
+
+                <div style="height: 200px; overflow: scroll; margin-top: 20px;" class="input-group mb-3">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">{{"NAME"|translate}}</th>
+                        <th scope="col">{{'READ'|translate}}</th>
+                        <th scope="col">{{'CREATE'|translate}}</th>
+                        <th scope="col">{{'UPDATE'|translate}}</th>
+                        <th scope="col">{{"DELETE"|translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let perm of resources?.resources">
+                        <th scope="row">{{perm}}</th>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('read-'+perm)" id="{{perm}}A1" value="read-{{perm}}"   (change)="onCheckChange($event)"><label for="{{perm}}A1"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('create-'+perm)" id="{{perm}}A2" value="create-{{perm}}" (change)="onCheckChange($event)" ><label for="{{perm}}A2"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('update-'+perm)" id="{{perm}}A3" value="update-{{perm}}" (change)="onCheckChange($event)"><label for="{{perm}}A3"></label></td>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked('delete-'+perm)" id="{{perm}}A4" value="delete-{{perm}}" (change)="onCheckChange($event)"><label for="{{perm}}A4"></label></td>
+                      </tr>
+                      <tr *ngIf="permissionEnum?.length>0">
+                        <th scope="row">{{"AUTRE_PERMISSION"|translate}}</th>
+                        <th scope="row">{{"CAN"|translate}}</th>
+                      </tr>
+                      <tr *ngFor="let customPer of permissionEnum">
+                        <th scope="row">{{customPer.title}}</th>
+                        <td  class="check"><input type="checkbox" [checked]="isChecked(customPer.value)" id="{{customPer.value}}A1" value="{{customPer.value}}"   (change)="onCheckChange($event)"><label for="{{customPer.value}}A1"></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                </table>
+
+                </div>
+
+
+                <button type="submit"  class="btn btn-block btn-success">Save Account</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
